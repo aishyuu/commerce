@@ -73,6 +73,6 @@ def create_listing(request):
         new_listing = Listing(item_name=name, image_url=url, category=cat, description=desc)
         new_listing.save()
 
-        return HttpResponse(f"{item_name} | {image_url} | {category} | {description}")
+        return HttpResponse(f"")
     else:
         return render(request, "auctions/create_listing.html")
