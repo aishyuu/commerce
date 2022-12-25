@@ -1,5 +1,35 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<h1>Create Listing</h1>
+<form action="{% url 'auctions:create_listing' %}" method="post">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th><label for="item_name">Item Name</label></th>
+            <th><input type="text" name="item_name" id="item_name" size="50" required></th>
+        </tr>
+        <tr>
+            <th><label for="image_url">Image URL</label></th>
+            <th><input type="text" name="image_url" id="image_url" size="50" required></th>
+        </tr>
+        <tr>
+            <th><label for="category">Category</label></th>
+            <th>
+                <select name="category" id="category" required>
+                    <option value="none">--SELECT--</option>
+                    <option value="other">Other</option>
+                    <option value="electronics">Technology</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="toys">Toys</option>
+                    <option value="outdoors">Outdoors</option>
+                    <option value="home">Home</option>
+                </select>
+            </th>
+        </tr>
+    </table>
+    <br>
+    <textarea name="description" id="description" cols="60" rows="10" placeholder="Description" required></textarea>
+    <br>
+    <input type="submit">
+</form>
 {% endblock %}
