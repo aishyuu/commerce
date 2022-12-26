@@ -3,7 +3,14 @@
 {% block body %}
     <h2>Active Listings</h2>
     {% for listing in all_listings %}
-        <h4>{{ listing.item_name }}</h4>
+        <div class="my-5">
+            <h5>{{ listing.item_name }}</h5>
+            <div class="container-fluid row ">
+                <img style="height: 100%" class="img-thumbnail rounded col-3" src={{listing.image_url}} alt="Item showcase">
+                <p class="col-9">{{listing.description}}</p>
+            </div>
+        </div>
+        
     {% endfor %}
     TODO
 {% endblock %}
