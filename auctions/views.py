@@ -8,7 +8,9 @@ from .models import User, Listing
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "all_listings": Listing.objects.all()
+    })
 
 
 def login_view(request):
@@ -73,6 +75,6 @@ def create_listing(request):
         new_listing = Listing(item_name=name, image_url=url, category=cat, description=desc)
         new_listing.save()
 
-        return HttpResponse(f"")
+        return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/create_listing.html")
