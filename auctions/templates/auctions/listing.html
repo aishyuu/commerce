@@ -1,0 +1,10 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    <div class="container-fluid row">
+        <img style="height:100%" class="img-thumbnail rounded col-5" src="{{listing.image_url}}" alt="item display">
+        <h2 class="col-7">{{ listing.item_name }}</h2>
+        <p>{{listing.description}}</p>
+    </div>
+{% endblock %}
