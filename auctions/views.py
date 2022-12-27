@@ -81,4 +81,8 @@ def create_listing(request):
 
 def listing(request, listing_id):
     item = Listing.objects.filter(id=listing_id).first()
-    return HttpResponse(item.item_name)
+    current_user = request.user
+    print(f'USER: {current_user}')
+    return render(request, "auctions/listing.html", {
+        "listing" : item
+    })

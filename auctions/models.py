@@ -10,3 +10,4 @@ class Listing(models.Model):
     image_url = models.URLField()
     category = models.CharField(max_length=64)
     description = models.TextField()
+    completed = models.BooleanField()
