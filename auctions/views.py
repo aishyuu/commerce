@@ -24,7 +24,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return index(request)
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
@@ -35,7 +35,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return index(request)
 
 
 def register(request):
@@ -60,7 +60,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return index(request)
     else:
         return render(request, "auctions/register.html")
 
@@ -71,11 +71,19 @@ def create_listing(request):
         url = request.POST["image_url"]
         cat = request.POST["category"]
         desc = request.POST["description"]
+        price = request.POST["price"]
+        current_user = request.user
 
-        new_listing = Listing(item_name=name, image_url=url, category=cat, description=desc)
+        new_listing = Listing(item_name=name, 
+        image_url=url, 
+        category=cat, 
+        description=desc, 
+        current_bid=price, 
+        created_by=current_user,
+        completed=False)
         new_listing.save()
 
-        return HttpResponseRedirect(reverse("index"))
+        return index(request)
     else:
         return render(request, "auctions/create_listing.html")
 
