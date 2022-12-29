@@ -23,3 +23,7 @@ class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     item_to_comment = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="item_to_comment")
     comment = models.TextField()
+
+class Watchlist(models.Model):
+    watchlist_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watchlist_user")
+    watchlist_item = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="watchlist_item")
