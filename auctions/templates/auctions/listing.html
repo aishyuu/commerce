@@ -9,6 +9,16 @@
             <h4>Created by {{ listing.created_by }}</h4>
             <br>
             <h4>Current Bid: ${{ listing.current_bid }}</h4>
+            <br>
+            <form action="{% url 'auctions:listing' listing_id=listing.id %}">
+                {% if user.is_authenticated %}
+                    {% if gray_out %}
+                    <input type="submit" class="btn btn-secondary" value="Unable to add to Watch List" disabled>
+                    {% else %}
+                    <input type="submit" class="btn btn-secondary" value="Add to Watch List">
+                    {% endif %}
+                {% endif %}
+            </form>
         </div>
         <p>{{listing.description}}</p>
     </div>

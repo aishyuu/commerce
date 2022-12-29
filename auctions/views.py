@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Listing
+from .models import User, Listing, Bids, Comments, Watchlist
 
 
 def index(request):
@@ -89,8 +89,9 @@ def create_listing(request):
 
 def listing(request, listing_id):
     item = Listing.objects.filter(id=listing_id).first()
-    current_user = request.user
-    print(f'USER: {current_user}')
+    gray_out = (request.user == item.created_by)
+    print(f'USER: {gray_out}')
     return render(request, "auctions/listing.html", {
-        "listing" : item
+        "listing" : item,
+        "gray_out" : gray_out
     })
