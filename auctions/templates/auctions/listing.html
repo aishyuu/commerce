@@ -10,13 +10,20 @@
             <br>
             <h4>Current Bid: ${{ listing.current_bid }}</h4>
             <br>
-            <form action="{% url 'auctions:listing' listing_id=listing.id %}">
+            <form action="{% url 'auctions:listing' listing_id=listing.id %}" method="post">
+                {% csrf_token %}
                 {% if user.is_authenticated %}
                     {% if gray_out %}
-                    <input type="submit" class="btn btn-secondary" value="Unable to add to Watch List" disabled>
+                    <input type="button" class="btn btn-secondary" value="Unable to add to Watch List" disabled>
                     {% else %}
-                    <input type="submit" class="btn btn-secondary" value="Add to Watch List">
+                        {% if add_or_remove %}
+                        <input type="submit" class="btn btn-danger" name="watchlist_remove" value="Remove from Watch List">
+                        {% else %}
+                        <input type="submit" class="btn btn-secondary" name="watchlist_add" value="Add to Watch List">
+                        {% endif %}
                     {% endif %}
+                {% else %}
+                <h4>Sign in to add to watchlist and bid</h4>
                 {% endif %}
             </form>
         </div>

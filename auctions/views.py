@@ -90,8 +90,24 @@ def create_listing(request):
 def listing(request, listing_id):
     item = Listing.objects.filter(id=listing_id).first()
     gray_out = (request.user == item.created_by)
-    print(f'USER: {gray_out}')
+    current_user = request.user
+    print(Watchlist.objects.all())
+    if request.method == "POST":
+        if request.POST.get("watchlist_add"):
+            new_watchlist = Watchlist(
+                watchlist_user=current_user,
+                watchlist_item=item
+            )
+            new_watchlist.save()
+        elif request.POST.get("watchlist_remove"):
+            removing_watchlist = Watchlist.objects.filter(
+                watchlist_user=current_user,
+                watchlist_item=item
+            ).first()
+            removing_watchlist.delete()
+    add_or_remove = len(Watchlist.objects.filter(watchlist_user=current_user, watchlist_item=item))
     return render(request, "auctions/listing.html", {
         "listing" : item,
-        "gray_out" : gray_out
+        "gray_out" : gray_out,
+        "add_or_remove" : add_or_remove
     })
