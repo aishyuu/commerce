@@ -91,8 +91,15 @@ def listing(request, listing_id):
     item = Listing.objects.filter(id=listing_id).first()
     gray_out = (request.user == item.created_by)
     current_user = request.user
-    print(Watchlist.objects.all())
+    first_bid = Bids.objects.filter(item_bidding=item).first() == None
+
+    if first_bid:
+        current_price = item.current_bid
+    else:
+        current_price = item.current_bid + 0.01
+
     if request.method == "POST":
+        # Check if buttons add or remove from the watchlist.
         if request.POST.get("watchlist_add"):
             new_watchlist = Watchlist(
                 watchlist_user=current_user,
@@ -105,9 +112,29 @@ def listing(request, listing_id):
                 watchlist_item=item
             ).first()
             removing_watchlist.delete()
+        elif request.POST.get("bid_new"):
+            new_price = request.POST.get("bid_price")
+            current_price = new_price
+            if len(Bids.objects.filter(item_bidding=item)) >= 1:
+                bid_to_update = Bids.objects.get(item_bidding=item)
+                bid_to_update.bidding_offer = new_price
+                bid_to_update.save()
+                item.current_bid = new_price
+                item.save()
+                print("Entry has a bid placed")
+            else:
+                new_bid = Bids(bidder=current_user, bidding_offer=new_price, item_bidding=item)
+                new_bid.save()
+                print("Entry has no bid placed")
+                ...
+            
+
+        #Check if button adds more to the bid.
     add_or_remove = len(Watchlist.objects.filter(watchlist_user=current_user, watchlist_item=item))
     return render(request, "auctions/listing.html", {
         "listing" : item,
         "gray_out" : gray_out,
-        "add_or_remove" : add_or_remove
+        "add_or_remove" : add_or_remove,
+        "min_price" : current_price,
+        "first_bid" : first_bid
     })

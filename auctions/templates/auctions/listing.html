@@ -14,13 +14,18 @@
                 {% csrf_token %}
                 {% if user.is_authenticated %}
                     {% if gray_out %}
-                    <input type="button" class="btn btn-secondary" value="Unable to add to Watch List" disabled>
+                    <input type="button" class="btn btn-danger" name="watchlist_end" value="End bid">
                     {% else %}
                         {% if add_or_remove %}
-                        <input type="submit" class="btn btn-danger" name="watchlist_remove" value="Remove from Watch List">
+                        <input type="submit" class="btn btn-danger mb-5" name="watchlist_remove" value="Remove from Watch List">
+                        <br>
                         {% else %}
-                        <input type="submit" class="btn btn-secondary" name="watchlist_add" value="Add to Watch List">
+                        <input type="submit" class="btn btn-secondary mb-5" name="watchlist_add" value="Add to Watch List">
+                        <br>
                         {% endif %}
+                        <input type="number" min="{{min_price}}" value="{{min_price}}" name="bid_price" step="0.01">
+                        <p>Min bid is {{min_price}}</p>
+                        <input type="submit" class="btn btn-primary" name="bid_new" value="Bid!">
                     {% endif %}
                 {% else %}
                 <h4>Sign in to add to watchlist and bid</h4>
