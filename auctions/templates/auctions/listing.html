@@ -7,6 +7,11 @@
         <div class="col-7">
             <h2>{{ listing.item_name }}</h2>
             <h4>Created by {{ listing.created_by }}</h4>
+            {% if completed%}
+            <br>
+            <h4>Auction completed at ${{ listing.current_bid }}</h4>
+            <br>
+            {% else %}
             <br>
             <h4>Current Bid: ${{ listing.current_bid }}</h4>
             <br>
@@ -14,7 +19,7 @@
                 {% csrf_token %}
                 {% if user.is_authenticated %}
                     {% if gray_out %}
-                    <input type="button" class="btn btn-danger" name="watchlist_end" value="End bid">
+                    <input type="submit" class="btn btn-danger" name="bid_end" value="End bid">
                     {% else %}
                         {% if add_or_remove %}
                         <input type="submit" class="btn btn-danger mb-5" name="watchlist_remove" value="Remove from Watch List">
@@ -31,6 +36,7 @@
                 <h4>Sign in to add to watchlist and bid</h4>
                 {% endif %}
             </form>
+            {% endif %}
         </div>
         <p>{{listing.description}}</p>
     </div>

@@ -92,6 +92,7 @@ def listing(request, listing_id):
     gray_out = (request.user == item.created_by)
     current_user = request.user
     first_bid = Bids.objects.filter(item_bidding=item).first() == None
+    completed = item.completed
 
     if first_bid:
         current_price = item.current_bid
@@ -126,7 +127,9 @@ def listing(request, listing_id):
                 new_bid = Bids(bidder=current_user, bidding_offer=new_price, item_bidding=item)
                 new_bid.save()
                 print("Entry has no bid placed")
-                ...
+        elif request.POST.get("bid_end"):
+            item.completed = True
+            item.save()
             
 
         #Check if button adds more to the bid.
@@ -136,5 +139,6 @@ def listing(request, listing_id):
         "gray_out" : gray_out,
         "add_or_remove" : add_or_remove,
         "min_price" : current_price,
-        "first_bid" : first_bid
+        "first_bid" : first_bid,
+        "completed" : completed
     })
