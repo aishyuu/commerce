@@ -152,3 +152,23 @@ def listing(request, listing_id):
         "completed" : completed,
         "comments" : comments
     })
+
+def watchlist(request, user_id):
+    current_user = User.objects.filter(id=user_id).first()
+    full_watchlist = Watchlist.objects.filter(watchlist_user=current_user)
+    print(current_user)
+    return render(request, "auctions/watchlist.html", {
+        "current_user" : current_user,
+        "full_watchlist" : full_watchlist
+    })
+
+def categories(request):
+    category_search = request.POST["search_category"]
+    if category_search != "none":
+        search_results = Listing.objects.filter(category=category_search, completed=False)
+    else:
+        search_results = None
+    return render(request, "auctions/categories.html", {
+        "search_results" : search_results,
+        "category_search" : category_search
+    })

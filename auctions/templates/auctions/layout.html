@@ -21,6 +21,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'auctions:index' %}">Active Listings</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'auctions:watchlist' user_id=user.id %}">Watchlist</a>
+            </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'auctions:index' %}">Active Listings</a>
@@ -41,6 +44,9 @@
                     <a class="nav-link" href="{% url 'auctions:register' %}">Register</a>
                 </li>
             {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'auctions:categories' %}">Categories</a>
+            </li>
         </ul>
         <hr>
         {% block body %}
