@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Categories</h2>
+    <form action="{% url 'auctions:categories' %}" method="post">
+        {% csrf_token %}
+        <select name="search_category" id="search_category" required>
+            <option value="none">--SELECT--</option>
+            <option value="other">Other</option>
+            <option value="technology">Technology</option>
+            <option value="fashion">Fashion</option>
+            <option value="toys">Toys</option>
+            <option value="outdoors">Outdoors</option>
+            <option value="home">Home</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+
+    {% if search_results == None %}
+        <p>Search for something don't be shy :)</p>
+    {% else %}
+        <h2>Results for {{ category_search }}</h2>
+        {% for listing in search_results %}
+            <div class="my-5">
+                <a href="{% url 'auctions:listing' listing_id=listing.id %}">
+                    <h4>{{ listing.item_name }}</h4>
+                </a>
+                <div class="container-fluid row ">
+                    <img style="height: 100%" class="img-thumbnail rounded col-3" src={{listing.image_url}} alt="Item showcase">
+                    <div class="col-9">
+                        <h4>Current Bid: ${{listing.current_bid}}</h4>
+                        <br>
+                        <p>Created by {{listing.created_by}}</p>
+                        <br>
+                        <p>{{listing.description}}</p>                  
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

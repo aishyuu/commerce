@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{ current_user }}'s Watchlist</h2>
+    {% for listing in full_watchlist %}
+        <div class="my-5">
+            <a href="{% url 'auctions:listing' listing_id=listing.watchlist_item.id %}">
+                <h4>{{ listing.watchlist_item.item_name }}</h4>
+            </a>
+            <div class="container-fluid row ">
+                <img style="height: 100%" class="img-thumbnail rounded col-3" src={{listing.watchlist_item.image_url}} alt="Item showcase">
+                <div class="col-9">
+                    <h4>Current Bid: ${{listing.watchlist_item.current_bid}}</h4>
+                    <br>
+                    <p>Created by {{listing.watchlist_item.created_by}}</p>
+                    <br>
+                    <p>{{listing.watchlist_item.description}}</p>                  
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
