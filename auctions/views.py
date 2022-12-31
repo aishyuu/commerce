@@ -93,6 +93,7 @@ def listing(request, listing_id):
     current_user = request.user
     first_bid = Bids.objects.filter(item_bidding=item).first() == None
     completed = item.completed
+    comments = Comments.objects.filter(item_to_comment=item)
 
     if first_bid:
         current_price = item.current_bid
@@ -140,5 +141,6 @@ def listing(request, listing_id):
         "add_or_remove" : add_or_remove,
         "min_price" : current_price,
         "first_bid" : first_bid,
-        "completed" : completed
+        "completed" : completed,
+        "comments" : comments
     })

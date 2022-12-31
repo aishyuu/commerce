@@ -38,6 +38,19 @@
             </form>
             {% endif %}
         </div>
-        <p>{{listing.description}}</p>
+        <p class="mb-5">{{listing.description}}</p>
+        <h2>Comments</h2>
+        {% if user.is_authenticated %}
+            <form action="{% url 'auctions:listing' listing_id=listing.id %}">
+                <textarea name="content_comment" id="content_comment" cols="50" rows="20"></textarea>
+                <input type="submit" class="btn btn-primary" name="comment_submit">
+            </form>
+        {% endif %}
+        {% for ind_comment in comments %}
+            <div class="mb-5 border">
+                <h4>{{ ind_comment.user.username }}</h4>
+                <p>{{ ind_comment.comment }}</p>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
