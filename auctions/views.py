@@ -131,10 +131,18 @@ def listing(request, listing_id):
         elif request.POST.get("bid_end"):
             item.completed = True
             item.save()
+        elif request.POST.get("comment_submit"):
+            new_comment = request.POST["content_comment"]
+            adding_comment = Comments(user=current_user, item_to_comment=item, comment=new_comment)
+            adding_comment.save()
             
 
         #Check if button adds more to the bid.
-    add_or_remove = len(Watchlist.objects.filter(watchlist_user=current_user, watchlist_item=item))
+    if current_user.is_anonymous:
+        add_or_remove = True
+    else:
+        add_or_remove = len(Watchlist.objects.filter(watchlist_user=current_user, watchlist_item=item))
+
     return render(request, "auctions/listing.html", {
         "listing" : item,
         "gray_out" : gray_out,
